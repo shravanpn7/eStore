@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title> CMPE-282 Cloud Services </title>
+	<link type="text/css" rel="stylesheet" href="assets/css/bootstrap.css"/>
+</head>
+
+<body>
+<div class="container">
+	<h1><a href="#">CMPE 282 Cloud Services</a></h1>
+	
+	<div class="navbar">
+              <div class="navbar-inner">
+                <div class="container">
+                  <ul class="nav">
+                    <li class="active"><a href="index.html">CMPE282.com</a></li>
+					<li class="active span6"></li>
+					<li class="span2"><a href="SignIn.html">Sign In</a></li>
+                    <li><a href="#">My Cart</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+	<img src="assets/img/cloudServices.jpg" class="span5" />
+
+	<!-- h1><a href="#">CMPE 282 Cloud Services</a></h1>
+	
+	<h1 class="span2"><a href="SignIn.html">Sign In</a></h1>
+	<h3><a href="#">My Cart</a></h3-->
+	
+
+	<form id="signup_submit" action="myrest/home/signup" method="post">
+		lastname: <input type="text" name="lastname" id="lastname"><span
+			id="lastname_validate"></span><br> firstname:<input type="text"
+			name="firstname" id="firstname"><span id="firstname_validate"></span><br>
+		email:<input type="text" name="email" id="email"><span
+			id="email_validate"></span><br> password:<input type="password"
+			name="password" id="password"><span id="password_validate"></span><br>
+		password_1:<input type="password" name="password_1" id="password_1"><span
+			id="password_1_validate"></span><br> <input type="submit">
+	</form>
+	
+	</div>
+	<script src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+	<script src="js/signUp.js"></script>
+	
+</body>
+</html> 
