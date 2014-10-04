@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -67,10 +68,12 @@ public class HomeController {
 		UserDao userDao = new UserDaoImpl();
 		ProductDao productDao = new ProductDaoImpl();
 		User user = userDao.findUser(lastname, firstname, email, password);
+		HttpSession session = request.getSession();
 		
 		Viewable view = null ;
 		if(user == null){
-			request.setAttribute("illegalUser", " wrong user information, please try again! ");
+			session.setAttribute("illegalUser", " wrong user information, please try again! ");
+			System.out.println("Illegal User");
 			view = new Viewable("/login.html",null);
 			return Response.ok().entity(view).build();
 		}else{

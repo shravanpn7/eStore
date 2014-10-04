@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
 				e.printStackTrace();
 			}
 		     // conn = DriverManager.getConnection("jdbc:mysql://localhost/CloudServices","root","root");
-		      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cloudschema","root","papanaidu");
+		      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cloudschema2","root","papanaidu");
 		   }
 		   catch (SQLException e) {
 					e.printStackTrace();

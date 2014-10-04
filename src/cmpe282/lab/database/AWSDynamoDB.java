@@ -41,7 +41,7 @@ public class AWSDynamoDB {
     
     
     public static void init() throws Exception {
-    	System.out.println("set region ! to US_ west _ 1");
+    	System.out.println("set region ! to US_ west _ 2");
         dynamoDB = new AmazonDynamoDBClient(new ClasspathPropertiesFileCredentialsProvider());
         Region usWest2 = Region.getRegion(Regions.US_WEST_2 );
         dynamoDB.setRegion(usWest2);
