@@ -385,7 +385,7 @@ public class ProductDaoImpl implements ProductDao {
 				withAttributeValueList(new AttributeValue().withN(Integer.toString(uid)));
 		Map<String, Condition> keyconditions = new HashMap<String, Condition>();
 		keyconditions.put("product_id", condition_pid);
-		keyconditions.put("buyer_id", condition_uid);
+		//keyconditions.put("buyer_id", condition_uid);
 		
 		QueryRequest queryRequest = new QueryRequest()
         .withTableName(AWSDynamoDB.table_name)
