@@ -3,6 +3,9 @@ package cmpe282.lab.database;
 import java.util.HashMap;
 import java.util.Map;
 
+import cmpe282.lab.bean.*;
+
+
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
@@ -96,5 +99,8 @@ public class AWSDynamoDB {
        
     }
 
+  
+    	
+    	
+    }
 
-}
