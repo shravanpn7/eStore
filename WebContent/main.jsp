@@ -111,7 +111,7 @@ $(document).ready(function() {
 	<h1>282 Lab1, Amazon Shopping Store</h1>
 	<div id="backlinks">
 		<a href="../">Back to Home Page &raquo;</a> <a
-			href="http://localhost:8080/LabStore/myrest/sc/get-sc/${legalUser.getUser_id()}?lastname=${legalUser.getLast_name()}&firstname=${legalUser.getFirst_name()}">go
+			href="http://localhost:8080/eStore/myrest/sc/get-sc/${legalUser.getUser_id()}?lastname=${legalUser.getLast_name()}&firstname=${legalUser.getFirst_name()}">go
 			to my shopping cart &raquo;</a> <a href="#">sign out &raquo;</a>
 	</div>
 	<div class="clearfix"></div>
@@ -137,7 +137,7 @@ $(document).ready(function() {
 	</div>
 
 	<div style="display: none;" id="addcatalog">
-		<form action="http://localhost:8080/LabStore/myrest/home/addcatalog" method="post">
+		<form action="http://localhost:8080/eStore/myrest/home/addcatalog" method="post">
 			<lable>catalog name:</lable>
 			<input name="catalog_name" type="text">
 			<input type="submit"><br>
@@ -146,7 +146,7 @@ $(document).ready(function() {
 	</div>
 
 	<div style="display: none;" id="addproduct">
-		<form action="http://localhost:8080/LabStore/myrest/home/addproduct/${legalUser.getUser_id()}" method="post">
+		<form action="http://localhost:8080/eStore/myrest/home/addproduct/${legalUser.getUser_id()}" method="post">
 			<lable>product name</lable>
 			<input name="product_name" type="text" ><br>
 			<lable>product type:</lable>
