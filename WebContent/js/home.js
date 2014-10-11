@@ -37,7 +37,7 @@ $(document).ready(
 
 
 
-var add = function(id) {
+function add(id) {
 	console.log(id);
 	var price = $("#" + id + "_price").text();
 	var name = $("#" + id + "_name").text();
@@ -60,7 +60,7 @@ var add = function(id) {
 
 	$.ajax({
 		type : "POST",
-		url : "http://localhost:8080/LabStore/myrest/sc/add",
+		url : "http://localhost:8080/eStore/myrest/sc/add",
 		dataType : "json",
 		data : JSON.stringify(toJson),
 		contentType : "application/json",
@@ -68,9 +68,11 @@ var add = function(id) {
 		success : function(data) {
 			console.log("success");
 			console.log(data);
+			alert(data);
 		},
 		error : function() {
 			console.log("error");
+			alert(errMsg);
 		}
 	});
 	return false;

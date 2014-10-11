@@ -123,8 +123,10 @@ public class ProductDaoImpl implements ProductDao {
 		int catalog_id = p.getCatalog_id();
 		String image_url = p.getImage_url();
 		int product_id = UUID.randomUUID().hashCode();
+		int product_quantity = p.getProduct_quantity();
+		int owner_id = p.getOwner_id();
 		
-		AWSDynamoDB.newItem(product_name, product_price, product_description, product_id, catalog_id, image_url);
+		AWSDynamoDB.newItem(product_name, product_price, product_description, product_id, catalog_id, image_url, product_quantity, owner_id);
 		
 		return 1;
 		
@@ -135,7 +137,7 @@ public class ProductDaoImpl implements ProductDao {
 		
 	}
 
-	@Override
+/*	@Override
 	public int insertProductCatalog(String type) {
 		MySQL mysql = new MySQL();
 		Connection con = mysql.connectDatabase();
@@ -155,8 +157,29 @@ public class ProductDaoImpl implements ProductDao {
 			MySQL.closeAllConnection(null, ps, con);
 		}
 		return 1;
-	}
+	} */
 
+        public int insertProductCatalog(String type) {
+		
+		try {
+		
+		String catalog_name = type;
+		int catalog_id = UUID.randomUUID().hashCode();
+				
+		AWSDynamoDB.newCatalogItem(catalog_name, catalog_id);
+		
+		System.out.println("Successfuly inserted catalog");
+		
+		return 1;
+		
+		} catch (AmazonServiceException ase) {
+            System.err.println("Failed to retrieve item in " + "DyanmoDB");
+			return 0;
+		}
+		
+	}
+	
+	
 /*	@Override
 	public List<Product> findAllProduct() {
 		List<Product> products = null;
@@ -186,15 +209,21 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Product> findAllProduct() {
 		List<Product> products = new ArrayList<Product>();
 		 ScanResult result = null;
+		 ScanResult catResult = null;
 		
 			 ScanRequest req = new ScanRequest();
 			 req.setTableName(AmazonStoreSchema.TABLE_PRODUCT);
+			 ScanRequest catReq = new ScanRequest(AmazonStoreSchema.TABLE_CATALOG);
 			 
-			 if (result == null) {
-				 System.err.println("Blank table");
-			 }
+			 
+			 
 			 
 			 result = AWSDynamoDB.dynamoDB.scan(req);
+			 catResult = AWSDynamoDB.dynamoDB.scan(catReq);
+			 
+			 if (result == null || catResult == null) {
+				 System.err.println("Blank table");
+			 }
 			 //List<Map<String, AttributeValue>> rows = result.getItems();
 			 for (int i = 0; i < result.getCount(); i++) {
 			      HashMap<String, AttributeValue> item = (HashMap<String, AttributeValue>) result
@@ -206,6 +235,13 @@ public class ProductDaoImpl implements ProductDao {
 			      p.setProduct_description((item.get("product_description").getS()));
 			      p.setProduct_name((item.get("product_name").getS()));
 			      p.setProduct_price(Float.parseFloat(item.get("product_price").getN()));
+			      p.setProduct_quantity(Integer.parseInt(item.get("product_quantity").getN()));
+			      p.setOwner_id(Integer.parseInt(item.get("owner_id").getN()));
+			      for (int j=0; j< catResult.getCount(); j++) {
+			    	  HashMap<String, AttributeValue> catitem = (HashMap<String, AttributeValue>) catResult
+					          .getItems().get(j);
+			    	  p.setCatalog_name((catitem.get("catalog_name").getS()));
+			      }
 			      products.add(p);
 			 }
 		 	return products;
@@ -482,7 +518,7 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Catalog> getALLcatalogs() {
+	/*public List<Catalog> getALLcatalogs() {
 		MySQL mysql = new MySQL();
 		Connection con = mysql.connectDatabase();
 		Statement s = null;
@@ -506,6 +542,34 @@ public class ProductDaoImpl implements ProductDao {
 		
 		
 		return catalogs;
+	}*/
+	
+	public List<Catalog> getALLcatalogs() {
+		List<Catalog> Catalogs = new ArrayList<Catalog>();
+		 ScanResult result = null;
+		
+			 ScanRequest req = new ScanRequest();
+			 req.setTableName(AmazonStoreSchema.TABLE_CATALOG);
+			 
+			 
+			 
+			 result = AWSDynamoDB.dynamoDB.scan(req);
+			 
+			 if (result == null) {
+				 System.err.println("Blank table");
+			 }
+			 //List<Map<String, AttributeValue>> rows = result.getItems();
+			 for (int i = 0; i < result.getCount(); i++) {
+			      HashMap<String, AttributeValue> item = (HashMap<String, AttributeValue>) result
+			          .getItems().get(i);   
+			      Catalog c = new Catalog();
+			      c.setCid(Integer.parseInt(item.get("catalog_id").getN()));
+			      c.setCname((item.get("catalog_name").getS()));
+			      
+			      Catalogs.add(c);
+			 }
+		 	return Catalogs;
+				
 	}
 
 }

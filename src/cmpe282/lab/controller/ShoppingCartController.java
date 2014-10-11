@@ -59,11 +59,11 @@ public class ShoppingCartController {
 		//System.out.println("name = " + name + " price = "+ price +" des= "+des + " quatity= " + quatity);
 		ProductDao pdao = new ProductDaoImpl();
 		
-		if(pdao.doesProductExist(Integer.parseInt(buyer_id), Integer.parseInt(product_id)) != 0){
+		/*if(pdao.doesProductExist(Integer.parseInt(buyer_id), Integer.parseInt(product_id)) != 0){
 			pdao.updateProductNumInSC(Integer.parseInt(buyer_id), Integer.parseInt(product_id), 1);
-		}else{
+		}else{*/
 			pdao.insertProductsIntoShoppingCart(Integer.parseInt(buyer_id), p);
-		}
+		//}
 	
 		return Response.status(200).build();
 	}

@@ -44,6 +44,7 @@ public class AWSDynamoDB {
     public static AmazonDynamoDBClient dynamoDB;
     public static String table_name = AmazonStoreSchema.TABLE_PRODUCT;
     public static String sc_table_name = AmazonStoreSchema.TABLE_SHOPPINGCART;
+    public static String catalog_table_name = AmazonStoreSchema.TABLE_CATALOG;
     
     
     public static void init() throws Exception {
@@ -61,25 +62,59 @@ public class AWSDynamoDB {
 		dynamoDB = new AmazonDynamoDBClient(credentials);
 	}
 
-    
-    public static int createTable(String table_name){
-    	
-    	CreateTableRequest createTableRequest = new CreateTableRequest().withTableName(table_name)
-                .withKeySchema(new KeySchemaElement().withAttributeName("product_id").withKeyType(KeyType.HASH))
-                .withAttributeDefinitions(new AttributeDefinition().withAttributeName("product_id").withAttributeType(ScalarAttributeType.N))
+	public static int createCatalogTable (String catalog_table_name) {
+		CreateTableRequest createTableRequest = new CreateTableRequest().withTableName(catalog_table_name)
+                .withKeySchema(new KeySchemaElement().withAttributeName("catalog_id").withKeyType(KeyType.HASH))
+                .withAttributeDefinitions(new AttributeDefinition().withAttributeName("catalog_id").withAttributeType(ScalarAttributeType.N))
                 .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(1L).withWriteCapacityUnits(1L));
                 TableDescription createdTableDescription = dynamoDB.createTable(createTableRequest).getTableDescription();
             System.out.println("Created Table: " + createdTableDescription);
 
             // Wait for it to become active
-            System.out.println("Waiting for " + table_name + " to become ACTIVE...");
-            Tables.waitForTableToBecomeActive(dynamoDB, table_name);
+            System.out.println("Waiting for " + catalog_table_name + " to become ACTIVE...");
+            Tables.waitForTableToBecomeActive(dynamoDB, catalog_table_name);
             
+            return 1;
+            		
+	}
+	
+	public static int createScTable (String sc_table_name)  {
+		
+		 CreateTableRequest createTableRequest3 = new CreateTableRequest().withTableName(sc_table_name)
+                 .withKeySchema(new KeySchemaElement().withAttributeName("product_id").withKeyType(KeyType.HASH))
+                 .withKeySchema(new KeySchemaElement().withAttributeName("buyer_id").withKeyType(KeyType.RANGE))
+                 .withAttributeDefinitions(new AttributeDefinition().withAttributeName("product_id").withAttributeType(ScalarAttributeType.N))
+                 .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(1L).withWriteCapacityUnits(1L));
+                 TableDescription createdTableDescription3 = dynamoDB.createTable(createTableRequest3).getTableDescription();
+             System.out.println("Created Table: " + createdTableDescription3);
+
+             // Wait for it to become active
+             System.out.println("Waiting for " + sc_table_name + " to become ACTIVE...");
+             Tables.waitForTableToBecomeActive(dynamoDB, sc_table_name);    
+             
+             return 1;
+	}
+	
+    public static int createTable(String table_name){
+    	
+    	            
+            CreateTableRequest createTableRequest2 = new CreateTableRequest().withTableName(table_name)
+                    .withKeySchema(new KeySchemaElement().withAttributeName("product_id").withKeyType(KeyType.HASH))
+                    .withAttributeDefinitions(new AttributeDefinition().withAttributeName("product_id").withAttributeType(ScalarAttributeType.N))
+                    .withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits(1L).withWriteCapacityUnits(1L));
+                    TableDescription createdTableDescription2 = dynamoDB.createTable(createTableRequest2).getTableDescription();
+                System.out.println("Created Table: " + createdTableDescription2);
+
+                // Wait for it to become active
+                System.out.println("Waiting for " + table_name + " to become ACTIVE...");
+                Tables.waitForTableToBecomeActive(dynamoDB, table_name);
+            
+                               
             return 1;
 
     }
     
-    public static void newItem(String product_name, int product_price, String product_description, int product_id, int catalog_id, String image_url) {
+    public static void newItem(String product_name, int product_price, String product_description, int product_id, int catalog_id, String image_url, int product_quantity, int owner_id) {
         try {
     	Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
         item.put("product_name", new AttributeValue(product_name));
@@ -88,6 +123,8 @@ public class AWSDynamoDB {
         item.put("product_id", new AttributeValue().withN(Integer.toString(product_id)));
         item.put("catalog_id", new AttributeValue().withN(Integer.toString(catalog_id)));
         item.put("image_url", new AttributeValue(image_url));
+        item.put("owner_id", new AttributeValue().withN(Integer.toString(owner_id)));
+        item.put("product_quantity", new AttributeValue().withN(Integer.toString(product_quantity)));
         
         PutItemRequest putItemRequest1 = new PutItemRequest()
         .withTableName(table_name)
@@ -102,6 +139,26 @@ public class AWSDynamoDB {
             System.err.println(ase);
             
 }   
+    }
+    
+    public static void newCatalogItem(String catalog_name, int catalog_id) {
+    	
+    	 try {
+    	    	Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
+    	        item.put("catalog_name", new AttributeValue(catalog_name));
+    	        item.put("catalog_id", new AttributeValue().withN(Integer.toString(catalog_id)));
+    	  
+    	        PutItemRequest putItemRequest1 = new PutItemRequest()
+    	        .withTableName(catalog_table_name)
+    	        .withItem(item);
+    	        dynamoDB.putItem(putItemRequest1);
+
+    	        System.out.println("Item successfully added in DynamoDB");
+    	 } catch (AmazonServiceException ase) {
+    		 System.err.println("Failed to put item in " + catalog_table_name);
+             System.err.println(ase);
+    	 }
+    	
     }
     
     public static void getProduct() {
@@ -140,8 +197,16 @@ public class AWSDynamoDB {
     
     
     
-    public static boolean doesTableExist(String table_name){
+    public static boolean doesCatalogTableExist(String catalog_table_name){
+    	return Tables.doesTableExist(dynamoDB, catalog_table_name);
+    }
+    
+    public static boolean doesProductTableExist(String table_name){
     	return Tables.doesTableExist(dynamoDB, table_name);
+    }
+   
+    public static boolean doesScTableExist(String sc_table_name){
+    	return Tables.doesTableExist(dynamoDB, sc_table_name);
     }
     
     public static void descriptNewTalbe(String table_name){
@@ -150,32 +215,44 @@ public class AWSDynamoDB {
          System.out.println("Table Description: " + tableDescription);
 
     }
+
     
     public static void main(String[] args) throws Exception {
         init();
-//       if(doesTableExist(table_name)){
-//    	   System.out.println("table exsit");
-//       }else{
-//    	   createTable(table_name);
-//    	   
+       if(doesCatalogTableExist(catalog_table_name)){
+    	   System.out.println("Catalog table exists");
+       }else{
+    	   createCatalogTable(catalog_table_name);
+       }
+    	   
+    	   if(doesProductTableExist(table_name)){
+        	   System.out.println("Product table exists");
+           }else{
+        	   createTable(table_name);
+           }
+        	   
+        	   if(doesScTableExist(sc_table_name)){
+            	   System.out.println("table exist");
+               }else{
+            	   createScTable(sc_table_name);
+               }
+    }
+}
+    	   
 //    	   Map<String, AttributeValue> item = newItem("test item", 189, "test description", 1, 3, "http://images.apple.com/macbook-pro/images/overview_hero.jpg");
 //    	    PutItemRequest putItemRequest = new PutItemRequest(table_name, item);
 //    	    PutItemResult putItemResult = dynamoDB.putItem(putItemRequest);
 //    	    System.out.println("Result: " + putItemResult);
 //    	   descriptNewTalbe("product");
-//       }
-        
-        try {
-        	//getProduct("1", "product");
-        	
-        }
-        catch (AmazonServiceException ase) {
-            System.err.println(ase.getMessage());
-        }  
-    }
-
        
-    }
+//        try {
+//        	//getProduct("1", "product");
+//        	
+//        }
+//        catch (AmazonServiceException ase) {
+//            System.err.println(ase.getMessage());
+//        }  
+    
 
   
     	

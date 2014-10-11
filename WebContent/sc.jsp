@@ -13,6 +13,8 @@
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/home.js"></script>
 <script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/sc.js"></script>
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/polyfill.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/blocksit.min.js"></script>
@@ -20,27 +22,12 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
 <script type="text/javascript">
-var rem = function(pid,uid){
-	console.log("remove");
-	$.ajax({
-		type : "POST",
-		url : "http://localhost:8080/LabStore/myrest/sc/remove/"+pid+"?buyerid="+uid,
-		success : function(data) {
-			console.log("success");
-			console.log(data);
-		},
-		error : function() {
-			console.log("error");
-		}
-	});
-	
-	return false;
-};
+
 
 var checkout = function(uid){
 	$.ajax({
 		type : "POST",
-		url : "http://localhost:8080/LabStore/myrest/sc/checkout/"+uid,
+		url : "http://localhost:8080/eStore/myrest/sc/checkout/"+uid,
 		success : function(data) {
 			console.log("success");
 			console.log(data);
@@ -113,8 +100,8 @@ $(document).ready(function() {
 	<header id="header">
 	<h1>282 Lab1, Amazon Shopping Store</h1>
 	<div id="backlinks">
-		<a href="../">Back to Home Page &raquo;</a> <a
-			href="http://localhost:8080/LabStore/myrest/sc/get-sc/${legalUser.getUser_id()}?lastname=${legalUser.getLast_name()}&firstname=${legalUser.getFirst_name()}">go
+		<a href="http://localhost:8080/eStore/myrest/home/signin">Back to Home Page &raquo;</a> <a
+			href="http://localhost:8080/eStore/myrest/sc/get-sc/${legalUser.getUser_id()}?lastname=${legalUser.getLast_name()}&firstname=${legalUser.getFirst_name()}">go
 			to my shopping cart &raquo;</a>
 			<a href="#">sign out &raquo;</a>
 	</div>
@@ -124,7 +111,7 @@ $(document).ready(function() {
 	<h2>${lastname} ${firstname}'s shopping cart</h2>
 	<h3>
 		<div>
-			<a href="http://localhost:8080/LabStore/myrest/sc/checkout/${userid}">Check Out</a>
+			<a href="http://localhost:8080/eStore/myrest/sc/checkout/${userid}">Check Out</a>
 		</div>
 	</h3>
 	</hgroup>
