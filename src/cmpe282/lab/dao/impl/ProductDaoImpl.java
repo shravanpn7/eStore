@@ -237,11 +237,15 @@ public class ProductDaoImpl implements ProductDao {
 			      p.setProduct_price(Float.parseFloat(item.get("product_price").getN()));
 			      p.setProduct_quantity(Integer.parseInt(item.get("product_quantity").getN()));
 			      p.setOwner_id(Integer.parseInt(item.get("owner_id").getN()));
-			      for (int j=0; j< catResult.getCount(); j++) {
-			    	  HashMap<String, AttributeValue> catitem = (HashMap<String, AttributeValue>) catResult
+			      int j=0;
+			      do  {
+			    	   HashMap<String, AttributeValue> catitem = (HashMap<String, AttributeValue>) catResult
 					          .getItems().get(j);
+			    	   if(catitem.get("catalog_id").getN() == item.get("catalog_id").getN()) {
 			    	  p.setCatalog_name((catitem.get("catalog_name").getS()));
-			      }
+			    	   }
+			    	  j++;
+			      } while (j < catResult.getCount());
 			      products.add(p);
 			 }
 		 	return products;
@@ -276,29 +280,23 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> findProductByCatalog(int catalog_id) {
-		List<Product> products = null;
-		MySQL mysql = new MySQL();
-		Connection con = mysql.connectDatabase();
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			ps = con.prepareStatement("select * from "
-					+ AmazonStoreSchema.TABLE_PRODUCT + " where catalog_id ="
-					+ catalog_id);
-			rs = ps.executeQuery();
-			products = getProducts(rs);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("error");
-			return null;
-		} finally {
-			MySQL.closeAllConnection(rs, ps, con);
+		HashMap<String, Condition> scanFilter = new HashMap<String, Condition>();
+		Condition condition = new Condition().withComparisonOperator(
+				ComparisonOperator.EQ.toString()).withAttributeValueList(
+				new AttributeValue().withN(Integer.toString(catalog_id)));
+		scanFilter.put("catalog_id", condition);
+		ScanRequest scanRequest = new ScanRequest(AWSDynamoDB.table_name)
+				.withScanFilter(scanFilter);
+		ScanResult scanResult = AWSDynamoDB.dynamoDB.scan(scanRequest);
+		System.out.println("Result: " + scanResult);
+		List<Product> products = new ArrayList<Product>();
+		for (Map<String, AttributeValue> item : scanResult.getItems()) {
+			products.add(printItem(item));
 		}
-		System.out.println("findProductByCatalog ---- >succ");
+		//System.out.println(products.get(0).getProduct_description());
 		return products;
 	}
+	
 
 	@Override
 	public int updateProductQuantity(int pid, int quantity) {

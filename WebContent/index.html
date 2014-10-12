@@ -1,52 +1,91 @@
-<!DOCTYPE HTML>
-<html>
+<link class="cssdeck" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" class="cssdeck">
 
-<head>
-	<meta charset="utf-8">
-	<title> CMPE-282 Cloud Services </title>
-	<link type="text/css" rel="stylesheet" href="assets/css/bootstrap.css"/>
-</head>
+<script src="js/jquery-min.js"></script>
+<script src="js/login.js"></script>
+<script src="js/polyfill.js"></script>
+<script src="js/home.js"></script>
 
-<body>
-<div class="container">
-	<h1><a href="#">CMPE 282 Cloud Services</a></h1>
-	
-	<div class="navbar">
-              <div class="navbar-inner">
-                <div class="container">
-                  <ul class="nav">
-                    <li class="active"><a href="index.html">CMPE282.com</a></li>
-					<li class="active span6"></li>
-					<li class="span2"><a href="login.html">Sign In</a></li>
-                    <li><a href="#">My Cart</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-	<img src="assets/img/cloudServices.jpg" class="span5" />
-
-	<!-- h1><a href="#">CMPE 282 Cloud Services</a></h1>
-	
-	<h1 class="span2"><a href="login.html">Sign In</a></h1>
-	<h1 class="span2"><a href="signup.jsp">Sign Up</a></h1>
-	<h3><a href="#">My Cart</a></h3-->
-	
-
-	<form id="signup_submit" action="myrest/home/signup" method="post">
-		lastname: <input type="text" name="lastname" id="lastname"><span
-			id="lastname_validate"></span><br> firstname:<input type="text"
-			name="firstname" id="firstname"><span id="firstname_validate"></span><br>
-		email:<input type="text" name="email" id="email"><span
-			id="email_validate"></span><br> password:<input type="password"
-			name="password" id="password"><span id="password_validate"></span><br>
-		password_1:<input type="password" name="password_1" id="password_1"><span
-			id="password_1_validate"></span><br> <input type="submit">
-	</form>
-	
+<div class="" id="loginModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>CMPE 282 - Cloud Services - Lab1</h3>
 	</div>
-	<script src="js/bootstrap.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-	<script src="js/signUp.js"></script>
-	
-</body>
-</html> 
+	<div class="modal-body">
+		<div class="well">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+				<li><a href="#create" data-toggle="tab">Create Account</a></li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane active in" id="login">
+					<form class="form-horizontal" action='myrest/home/signin' method="POST">
+						<fieldset>
+							<div id="legend">
+								<legend class="">Login</legend>
+							</div>    
+							<div class="control-group">
+								<!-- Username -->
+								<label class="control-label"  for="firstname">Firstname</label>
+								<div class="controls">
+									<input type="text" id="firstname" name="firstname" placeholder="" class="input-xlarge">
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<!-- Username -->
+								<label class="control-label"  for="lastname">Lastname</label>
+								<div class="controls">
+									<input type="text" id="lastname" name="lastname" placeholder="" class="input-xlarge">
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<!-- Username -->
+								<label class="control-label"  for="email">Email</label>
+								<div class="controls">
+									<input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<!-- Password-->
+								<label class="control-label" for="password">Password</label>
+								<div class="controls">
+									<input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+								</div>
+							</div>
+							
+							
+							<div class="control-group">
+								<!-- Button -->
+								<div class="controls">
+									<button class="btn btn-success" type="submit">Login</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>                
+				</div>
+				<div class="tab-pane fade" id="create">
+					<form id="tab" action='myrest/home/signup' method="POST" >
+						
+						<label>First Name</label>
+						<input type="text" name="firstname" id="firstname" value="" class="input-xlarge">
+						<label>Last Name</label>
+						<input type="text"  name="lastname" id="lastname" value="" class="input-xlarge">
+						<label>Email</label>
+						<input type="text" name="email" id="email" value="" class="input-xlarge">
+						<label>Password</label>
+						<input type="password" name="password" id="password" value="" class="input-xlarge">
+												
+						<div>
+							<button class="btn btn-primary" type="submit" id="submit_1_1" name="submit">Create Account</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script class="cssdeck" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script class="cssdeck" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>

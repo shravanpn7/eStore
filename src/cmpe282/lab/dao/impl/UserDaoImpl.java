@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
 	static String dbDriver = "com.mysql.jdbc.Driver";
 	static String username = "root";
 	static String password = "papanaidu";
-	static String URL = "jdbc:mysql://localhost:3306/cloudschema2";
+	static String URL = "jdbc:mysql://estore-test.ctug6fbdtj7d.us-east-1.rds.amazonaws.com:3306/cloudschema2";
 	
 	public UserDaoImpl()
 	  {
@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
 				e.printStackTrace();
 			}
 		     // conn = DriverManager.getConnection("jdbc:mysql://localhost/CloudServices","root","root");
-		      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cloudschema2","root","papanaidu");
+		      con = DriverManager.getConnection("jdbc:mysql://estore-test.ctug6fbdtj7d.us-east-1.rds.amazonaws.com:3306","root","papanaidu");
 		   }
 		   catch (SQLException e) {
 					e.printStackTrace();

@@ -12,7 +12,7 @@ public class MySQL {
 	private static final String username = "root";
 	private static final String password = "papanaidu";
 //	private static final String URL = "jdbc:mysql://localhost/cloudschema2";
-	private static final String URL = "jdbc:mysql://estore-test.ctug6fbdtj7d.us-east-1.rds.amazonaws.com:3306";
+	private static final String URL = "jdbc:mysql://estore-test.ctug6fbdtj7d.us-east-1.rds.amazonaws.com:3306/cloudschema2";
 	private static final String table = "user";
 	
 	

@@ -27,6 +27,10 @@ import cmpe282.lab.dao.UserDao;
 import cmpe282.lab.dao.impl.ProductDaoImpl;
 import cmpe282.lab.dao.impl.UserDaoImpl;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.sun.jersey.api.view.Viewable;
 
 
@@ -67,13 +71,16 @@ public class HomeController {
 		UserDao userDao = new UserDaoImpl();
 		ProductDao productDao = new ProductDaoImpl();
 		User user = userDao.findUser(lastname, firstname, email, password);
+		
+		
 		HttpSession session = request.getSession();
+		
 
 		Viewable view = null ;
 		if(user == null){
 			session.setAttribute("illegalUser", " wrong user information, please try again! ");
 			System.out.println("Illegal User");
-			view = new Viewable("/login.html",null);
+			view = new Viewable("/index.html",null);
 			return Response.ok().entity(view).build();
 		}else{
 			request.setAttribute("legalUser", user);
@@ -89,7 +96,7 @@ public class HomeController {
 	@Path("/login")
 	public Response home(){
 		System.out.println("i am in home");
-		Viewable view = new Viewable("/login.html",null);
+		Viewable view = new Viewable("/index.html",null);
 		return  Response.ok().entity(view).build();
 	}
 

@@ -28,7 +28,7 @@
 	<h1>282 Lab1, Amazon Shopping Store</h1>
 	<div id="backlinks">
 		<a href="../">Back to Home Page &raquo;</a> <a
-			href="http://localhost:8080/LabStore/myrest/sc/get-sc/${legalUser.getUser_id()}?lastname=${legalUser.getLast_name()}&firstname=${legalUser.getFirst_name()}">go
+			href="http://localhost:8080/eStore/myrest/sc/get-sc/${legalUser.getUser_id()}?lastname=${legalUser.getLast_name()}&firstname=${legalUser.getFirst_name()}">go
 			to my shopping cart &raquo;</a>
 			<a href="#">sign out &raquo;</a>
 	</div>
@@ -54,7 +54,7 @@
 	<hr>
 	
 	<h1>credit card payment:</h1>
-	<form action="http://localhost:8080/LabStore/myrest/sc/pay/${uid}"
+	<form action="http://localhost:8080/eStore/myrest/sc/pay/${uid}"
 		method="post">
 		<div>
 			<span>Firstname: </span><span><input type="text"

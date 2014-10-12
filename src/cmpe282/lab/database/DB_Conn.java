@@ -18,7 +18,7 @@ public class DB_Conn {
     public Connection getConnection() throws SQLException, ClassNotFoundException  {
         Class.forName("com.mysql.jdbc.Driver"); 
        // con=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+database+"",""+username+"",""+password+""); 
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cloudschema2","root","papanaidu");
+        con = DriverManager.getConnection("jdbc:mysql://estore-test.ctug6fbdtj7d.us-east-1.rds.amazonaws.com:3306/cloudschema2","root","papanaidu");
         // stm=con.createStatement(); 
         return con;
     }
